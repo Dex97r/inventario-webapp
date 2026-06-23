@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title or "Servicio fuera de línea" }}{% endblock %}
+
+{% block content %}
+<div class="auth-container mt-5" style="max-width: 550px;">
+    <div class="card card-premium p-5 text-center mt-5">
+        <div class="d-inline-block bg-warning text-white rounded-circle p-4 mb-4 mx-auto" style="width: fit-content;">
+            <i class="bi bi-cloud-slash-fill fs-1"></i>
+        </div>
+        
+        <h3 class="fw-bold text-dark mb-3">Servicio Temporalmente Fuera de Línea</h3>
+        
+        <p class="text-muted mb-4">
+            {{ message or "El servidor central de inventario no está respondiendo a nuestras solicitudes. Es posible que esté en mantenimiento programado o experimentando sobrecarga temporal." }}
+        </p>
+
+        <div class="alert alert-light border text-start small mb-4">
+            <h6 class="fw-bold"><i class="bi bi-info-circle me-1"></i> Sugerencias:</h6>
+            <ul class="mb-0 ps-3">
+                <li>Verifique si el servidor de la API se encuentra encendido.</li>
+                <li>Compruebe la configuración de red y las variables de entorno.</li>
+                <li>Intente recargar esta página en unos instantes.</li>
+            </ul>
+        </div>
+
+        <div class="d-flex justify-content-center gap-2">
+            <a href="{{ url_for('routes.index') }}" class="btn btn-custom-primary px-4">
+                <i class="bi bi-house-door-fill me-1"></i> Ir al Inicio
+            </a>
+            <button onclick="window.location.reload();" class="btn btn-outline-secondary px-4">
+                <i class="bi bi-arrow-clockwise me-1"></i> Reintentar
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

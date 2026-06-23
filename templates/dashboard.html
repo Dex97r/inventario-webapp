@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard General{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold text-dark mb-1">Panel de Control</h2>
+        <p class="text-muted mb-0">Resumen y estado actual del inventario de activos tecnológicos.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{{ url_for('routes.equipos') }}" class="btn btn-custom-primary me-2">
+            <i class="bi bi-list-ul me-1"></i> Ver Inventario
+        </a>
+        <a href="{{ url_for('routes.equipo_nuevo') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg me-1"></i> Nuevo Equipo
+        </a>
+    </div>
+</div>
+
+<!-- Tarjetas de Métricas -->
+<div class="row g-4 mb-5">
+    <!-- Total Equipos -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card-premium stat-card stat-total h-100 p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-uppercase fw-semibold text-muted small mb-2">Total Equipos</h6>
+                    <h2 class="fw-bold mb-0 text-dark">{{ stats.total }}</h2>
+                </div>
+                <div class="text-secondary stat-icon">
+                    <i class="bi bi-pc-display-horizontal"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disponibles -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card-premium stat-card stat-disponible h-100 p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-uppercase fw-semibold text-muted small mb-2">Disponibles</h6>
+                    <h2 class="fw-bold mb-0 text-success">{{ stats.disponibles }}</h2>
+                </div>
+                <div class="text-success stat-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asignados -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card-premium stat-card stat-asignado h-100 p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-uppercase fw-semibold text-muted small mb-2">Asignados</h6>
+                    <h2 class="fw-bold mb-0 text-primary">{{ stats.asignados }}</h2>
+                </div>
+                <div class="text-primary stat-icon">
+                    <i class="bi bi-person-check-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- En Reparación -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card-premium stat-card stat-reparacion h-100 p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-uppercase fw-semibold text-muted small mb-2">En Reparación</h6>
+                    <h2 class="fw-bold mb-0 text-warning">{{ stats.en_reparacion }}</h2>
+                </div>
+                <div class="text-warning stat-icon">
+                    <i class="bi bi-tools"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Retirados -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card-premium stat-card stat-retirado h-100 p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-uppercase fw-semibold text-muted small mb-2">Retirados</h6>
+                    <h2 class="fw-bold mb-0 text-danger">{{ stats.retirados }}</h2>
+                </div>
+                <div class="text-danger stat-icon">
+                    <i class="bi bi-x-circle-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección Informativa / Accesos rápidos -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card card-premium p-4 h-100">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle text-primary me-2"></i>Sobre la Aplicación</h5>
+            <p>Este portal es la interfaz de administración para el personal de soporte técnico. Desde aquí se gestiona de forma interactiva la asignación y reparación de las herramientas de trabajo.</p>
+            <p class="mb-0 text-muted small">Todos los datos sobre los equipos provienen del servidor centralizado de inventario a través de API REST. No se almacena lógica del inventario de forma local.</p>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card card-premium p-4 h-100">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-gear-fill text-success me-2"></i>Acciones Frecuentes</h5>
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('routes.equipo_nuevo') }}" class="btn btn-outline-success text-start py-2">
+                    <i class="bi bi-plus-circle-fill me-2"></i> Registrar Nuevo Activo
+                </a>
+                <a href="{{ url_for('routes.equipos') }}" class="btn btn-outline-primary text-start py-2">
+                    <i class="bi bi-search me-2"></i> Buscar Equipos Específicos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

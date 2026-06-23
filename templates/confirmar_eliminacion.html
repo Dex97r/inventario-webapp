@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmar Eliminación de {{ equipo.codigo }}{% endblock %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 550px;">
+    <div class="card card-premium p-4 mt-5 border-top border-danger border-5">
+        <div class="text-center mb-4">
+            <div class="d-inline-block bg-danger text-white rounded-circle p-3 mb-2">
+                <i class="bi bi-trash3-fill fs-2"></i>
+            </div>
+            <h4 class="fw-bold text-dark">¿Confirmar Eliminación?</h4>
+            <p class="text-muted small">Esta acción no se puede deshacer de forma sencilla.</p>
+        </div>
+
+        <div class="alert alert-warning" role="alert">
+            <h6 class="alert-heading fw-bold"><i class="bi bi-exclamation-triangle-fill me-1"></i> Atención</h6>
+            Se dispone a eliminar permanentemente del inventario central el siguiente activo:
+            <ul class="mb-0 mt-2 small">
+                <li><strong>Código:</strong> {{ equipo.codigo }}</li>
+                <li><strong>Nombre:</strong> {{ equipo.nombre }}</li>
+                <li><strong>Marca/Modelo:</strong> {{ equipo.marca }} {{ equipo.modelo }}</li>
+                <li><strong>Número de Serie:</strong> {{ equipo.numero_serie }}</li>
+            </ul>
+        </div>
+
+        <!-- Formulario POST para realizar la eliminación en la API -->
+        <form action="{{ url_for('routes.equipo_eliminar', id=equipo.id) }}" method="POST">
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{{ url_for('routes.equipo_detalle', id=equipo.id) }}" class="btn btn-outline-secondary px-4 py-2">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger px-4 py-2">
+                    <i class="bi bi-trash-fill me-1"></i> Eliminar Equipo
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

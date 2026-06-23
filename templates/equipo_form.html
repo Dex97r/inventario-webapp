@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if action == 'nuevo' %}Registrar Nuevo Equipo{% else %}Editar Equipo {{ equipo.codigo }}{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('routes.equipos') }}">Inventario</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if action == 'nuevo' %}Nuevo{% else %}Editar ({{ equipo.codigo }}){% endif %}
+                </li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold text-dark mb-1">
+            {% if action == 'nuevo' %}Registrar Equipo{% else %}Editar Equipo{% endif %}
+        </h2>
+        <p class="text-muted">
+            {% if action == 'nuevo' %}Complete el formulario para incorporar un nuevo activo tecnológico al inventario.{% else %}Modifique la información necesaria del activo.{% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card card-premium p-4 mb-4">
+            <form action="{% if action == 'nuevo' %}{{ url_for('routes.equipo_nuevo') }}{% else %}{{ url_for('routes.equipo_editar', id=id) }}{% endif %}" method="POST" class="needs-validation" novalidate>
+                
+                <div class="row g-3">
+                    <!-- Código del Equipo -->
+                    <div class="col-md-6">
+                        <label for="codigo" class="form-label fw-semibold">Código Interno <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="codigo" name="codigo" value="{{ equipo.codigo }}" placeholder="Ej: LAP-001" required {% if action == 'editar' %}readonly{% endif %}>
+                        <div class="invalid-feedback">El código es obligatorio y debe ser único.</div>
+                        {% if action == 'editar' %}
+                        <div class="form-text text-muted">El código único del activo no puede ser modificado una vez registrado.</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Nombre del Equipo -->
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label fw-semibold">Nombre del Dispositivo <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ equipo.nombre }}" placeholder="Ej: Laptop Desarrollo Core i7" required>
+                        <div class="invalid-feedback">Por favor, ingrese un nombre descriptivo.</div>
+                    </div>
+
+                    <!-- Tipo de Dispositivo (Select) -->
+                    <div class="col-md-6">
+                        <label for="tipo" class="form-label fw-semibold">Tipo de Equipo <span class="text-danger">*</span></label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="" disabled {% if not equipo.tipo %}selected{% endif %}>Seleccione un tipo...</option>
+                            <option value="Laptop" {% if equipo.tipo == 'Laptop' %}selected{% endif %}>Laptop</option>
+                            <option value="PC" {% if equipo.tipo == 'PC' %}selected{% endif %}>PC</option>
+                            <option value="Impresora" {% if equipo.tipo == 'Impresora' %}selected{% endif %}>Impresora</option>
+                            <option value="Router" {% if equipo.tipo == 'Router' %}selected{% endif %}>Router</option>
+                            <option value="Switch" {% if equipo.tipo == 'Switch' %}selected{% endif %}>Switch</option>
+                            <option value="Monitor" {% if equipo.tipo == 'Monitor' %}selected{% endif %}>Monitor</option>
+                        </select>
+                        <div class="invalid-feedback">Seleccione un tipo de la lista.</div>
+                    </div>
+
+                    <!-- Número de Serie -->
+                    <div class="col-md-6">
+                        <label for="numero_serie" class="form-label fw-semibold">Número de Serie <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="numero_serie" name="numero_serie" value="{{ equipo.numero_serie }}" placeholder="Ej: SN-987654321-X" required>
+                        <div class="invalid-feedback">Ingrese el número de serie único del fabricante.</div>
+                    </div>
+
+                    <!-- Marca -->
+                    <div class="col-md-6">
+                        <label for="marca" class="form-label fw-semibold">Marca <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="marca" name="marca" value="{{ equipo.marca }}" placeholder="Ej: Dell, Lenovo, HP" required>
+                        <div class="invalid-feedback">Especifique la marca del fabricante.</div>
+                    </div>
+
+                    <!-- Modelo -->
+                    <div class="col-md-6">
+                        <label for="modelo" class="form-label fw-semibold">Modelo <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="modelo" name="modelo" value="{{ equipo.modelo }}" placeholder="Ej: Latitude 5420" required>
+                        <div class="invalid-feedback">Especifique el modelo del equipo.</div>
+                    </div>
+
+                    <!-- Estado del Dispositivo (Select) -->
+                    <div class="col-md-6">
+                        <label for="estado" class="form-label fw-semibold">Estado de Operación <span class="text-danger">*</span></label>
+                        <select class="form-select" id="estado" name="estado" required>
+                            <option value="Disponible" {% if equipo.estado == 'Disponible' %}selected{% endif %}>Disponible</option>
+                            <option value="Asignado" {% if equipo.estado == 'Asignado' %}selected{% endif %}>Asignado</option>
+                            <option value="En reparación" {% if equipo.estado == 'En reparación' %}selected{% endif %}>En reparación</option>
+                            <option value="Retirado" {% if equipo.estado == 'Retirado' %}selected{% endif %}>Retirado</option>
+                        </select>
+                        <div class="invalid-feedback">Seleccione el estado actual.</div>
+                    </div>
+
+                    <!-- Ubicación Física -->
+                    <div class="col-md-6">
+                        <label for="ubicacion" class="form-label fw-semibold">Ubicación Física <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" value="{{ equipo.ubicacion }}" placeholder="Ej: Oficina 302, Planta 3" required>
+                        <div class="invalid-feedback">Defina la oficina, departamento o almacén asignado.</div>
+                    </div>
+                </div>
+
+                <!-- Botones del Formulario -->
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a href="{% if action == 'nuevo' %}{{ url_for('routes.equipos') }}{% else %}{{ url_for('routes.equipo_detalle', id=id) }}{% endif %}" class="btn btn-outline-secondary px-4">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-save me-1"></i> Guardar Cambios
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Script de Bootstrap para deshabilitar el envío del formulario si hay campos no válidos.
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}

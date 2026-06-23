@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle de Equipo {{ equipo.codigo }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('routes.equipos') }}">Inventario</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ equipo.codigo }}</li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold text-dark mb-1">Detalle del Activo</h2>
+        <p class="text-muted">Visualización completa de las especificaciones y estado del equipo.</p>
+    </div>
+    <div class="col-md-4 text-md-end d-flex align-items-end justify-content-md-end gap-2 mt-3 mt-md-0">
+        <a href="{{ url_for('routes.equipos') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Volver
+        </a>
+        <a href="{{ url_for('routes.equipo_editar', id=equipo.id) }}" class="btn btn-primary">
+            <i class="bi bi-pencil-square me-1"></i> Editar
+        </a>
+        <a href="{{ url_for('routes.equipo_eliminar', id=equipo.id) }}" class="btn btn-danger">
+            <i class="bi bi-trash-fill me-1"></i> Eliminar
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Columna del Contenido Principal (Detalles) -->
+    <div class="col-lg-8">
+        <div class="card card-premium p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light text-primary rounded p-3 me-3 border">
+                        {% if equipo.tipo == 'Laptop' %}<i class="bi bi-laptop fs-3"></i>
+                        {% elif equipo.tipo == 'PC' %}<i class="bi bi-pc-display fs-3"></i>
+                        {% elif equipo.tipo == 'Impresora' %}<i class="bi bi-printer fs-3"></i>
+                        {% elif equipo.tipo == 'Router' %}<i class="bi bi-hdd-network fs-3"></i>
+                        {% elif equipo.tipo == 'Switch' %}<i class="bi bi-connector fs-3"></i>
+                        {% elif equipo.tipo == 'Monitor' %}<i class="bi bi-display fs-3"></i>
+                        {% else %}<i class="bi bi-cpu fs-3"></i>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark">{{ equipo.nombre }}</h4>
+                        <span class="text-muted small">ID Sistema API: #{{ equipo.id }}</span>
+                    </div>
+                </div>
+                <div>
+                    {% if equipo.estado == 'Disponible' %}
+                        <span class="badge badge-disponible px-3 py-2 fs-6 rounded-pill">Disponible</span>
+                    {% elif equipo.estado == 'Asignado' %}
+                        <span class="badge badge-asignado px-3 py-2 fs-6 rounded-pill">Asignado</span>
+                    {% elif equipo.estado == 'En reparación' %}
+                        <span class="badge badge-reparacion px-3 py-2 fs-6 rounded-pill">En reparación</span>
+                    {% elif equipo.estado == 'Retirado' %}
+                        <span class="badge badge-retirado px-3 py-2 fs-6 rounded-pill">Retirado</span>
+                    {% else %}
+                        <span class="badge bg-secondary px-3 py-2 fs-6 rounded-pill">{{ equipo.estado }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Tabla de especificaciones -->
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="text-muted py-2" style="width: 30%;"><strong>Código Interno:</strong></td>
+                            <td class="py-2"><code class="fs-6 fw-bold text-dark">{{ equipo.codigo }}</code></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted py-2"><strong>Tipo de Dispositivo:</strong></td>
+                            <td class="py-2">{{ equipo.tipo }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted py-2"><strong>Marca / Fabricante:</strong></td>
+                            <td class="py-2">{{ equipo.marca }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted py-2"><strong>Modelo:</strong></td>
+                            <td class="py-2">{{ equipo.modelo }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted py-2"><strong>Número de Serie:</strong></td>
+                            <td class="py-2"><span class="font-monospace">{{ equipo.numero_serie }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted py-2"><strong>Ubicación Física:</strong></td>
+                            <td class="py-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ equipo.ubicacion }}</td>
+                        </tr>
+                        {% if equipo.fecha_registro %}
+                        <tr>
+                            <td class="text-muted py-2"><strong>Fecha de Registro:</strong></td>
+                            <td class="py-2">{{ equipo.fecha_registro }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Columna Lateral (Resumen de Estado / Historial) -->
+    <div class="col-lg-4">
+        <div class="card card-premium p-4 mb-4 text-center">
+            <h5 class="fw-bold mb-3">Información Operativa</h5>
+            <div class="alert {% if equipo.estado == 'Disponible' %}alert-success{% elif equipo.estado == 'Asignado' %}alert-primary{% elif equipo.estado == 'En reparación' %}alert-warning{% else %}alert-danger{% endif %} py-3" role="alert">
+                <i class="bi bi-info-circle-fill fs-4 d-block mb-1"></i>
+                {% if equipo.estado == 'Disponible' %}
+                    El dispositivo se encuentra en almacén listo para ser asignado a un usuario.
+                {% elif equipo.estado == 'Asignado' %}
+                    El dispositivo está actualmente en uso por un colaborador en la ubicación registrada.
+                {% elif equipo.estado == 'En reparación' %}
+                    El dispositivo se encuentra en taller técnico por incidencias o mantenimiento.
+                {% elif equipo.estado == 'Retirado' %}
+                    El dispositivo ha sido dado de baja definitivamente del inventario de la empresa.
+                {% endif %}
+            </div>
+            <p class="text-muted small">Última sincronización con la API central realizada correctamente.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

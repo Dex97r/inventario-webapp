@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Cuenta{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="card card-premium p-4 mt-4">
+        <div class="text-center mb-4">
+            <div class="d-inline-block bg-success text-white rounded-circle p-3 mb-2">
+                <i class="bi bi-person-plus-fill fs-2"></i>
+            </div>
+            <h4 class="fw-bold text-dark">Crear Cuenta</h4>
+            <p class="text-muted small">Regístrese para gestionar el inventario</p>
+        </div>
+
+        <form action="{{ url_for('routes.registro') }}" method="POST">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre Completo</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Apellido" required autofocus>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo Electrónico</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="correo@ejemplo.com" required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="form-label">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-2 mb-3">
+                <i class="bi bi-person-check-fill me-1"></i> Registrarse
+            </button>
+        </form>
+
+        <hr class="text-muted my-3">
+
+        <div class="text-center">
+            <p class="mb-0 small text-muted">¿Ya tiene una cuenta? <a href="{{ url_for('routes.login') }}" class="text-decoration-none fw-bold">Inicie Sesión</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
