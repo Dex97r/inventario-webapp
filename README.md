@@ -19,7 +19,6 @@ Esta es la aplicación web de interfaz corporativa para el **Sistema de Gestión
 * **Docker** (Contenedorización)
 * **Gunicorn** (Servidor HTTP WSGI para producción)
 
----
 
 ## Variables de Entorno
 
@@ -35,7 +34,6 @@ cp .env.example .env
 | `API_URL` | URL de la API FastAPI externa que gestiona el inventario de equipos | `http://api_service:8000` |
 | `SECRET_KEY` | Clave secreta para encriptar las sesiones de Flask y evitar alteraciones | `ejemplo_clave_secreta_para_produccion_academica` |
 
----
 
 ## Credenciales de Prueba
 
