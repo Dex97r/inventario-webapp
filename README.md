@@ -4,7 +4,7 @@ Esta es la aplicación web de interfaz corporativa para el **Sistema de Gestión
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 * **Python 3.11**
 * **Flask** (Framework Web)
@@ -21,7 +21,7 @@ Esta es la aplicación web de interfaz corporativa para el **Sistema de Gestión
 
 ---
 
-## 📋 Variables de Entorno
+## Variables de Entorno
 
 La WebApp requiere configurar tres variables de entorno fundamentales para su correcto funcionamiento. Puede copiar el archivo `.env.example` para inicializar el suyo:
 
@@ -37,7 +37,7 @@ cp .env.example .env
 
 ---
 
-## 🔑 Credenciales de Prueba
+## Credenciales de Prueba
 
 Al levantar la aplicación por primera vez, el sistema autosembrará un usuario administrador por defecto si la tabla de usuarios se encuentra vacía:
 
@@ -47,7 +47,7 @@ Al levantar la aplicación por primera vez, el sistema autosembrará un usuario 
 
 ---
 
-## 🚀 Instalación y Ejecución
+## Instalación y Ejecución
 
 ### Opción A: Ejecución Local (Desarrollo)
 
@@ -101,7 +101,7 @@ La aplicación cuenta con un archivo `Dockerfile` configurado para producción a
 
 ---
 
-## 🔄 Flujo de Navegación del Sistema
+## Flujo de Navegación del Sistema
 
 1. **Página de Inicio (`/`)**:
    * Si no está autenticado, redirige automáticamente a la pantalla de **Login** (`/login`).
@@ -135,7 +135,7 @@ La aplicación cuenta con un archivo `Dockerfile` configurado para producción a
 
 ---
 
-## 🛡️ Tolerancia a Fallos (API Offline)
+## Tolerancia a Fallos (API Offline)
 
 Si el servidor de la API central (`inventario-api`) no está disponible o presenta fallas de red:
 * Las llamadas HTTP de `requests` lanzarán una excepción de conexión.
